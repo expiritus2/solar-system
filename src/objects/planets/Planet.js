@@ -22,7 +22,6 @@ class Planet extends THREE.Object3D {
     this.material = new THREE.MeshPhongMaterial({...this.materialOptions});
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.name = this.name;
-    this.scene.add(this.mesh);
   }
 
   move(time) {

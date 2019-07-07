@@ -1,30 +1,33 @@
 import * as THREE from 'three';
 
-import EarthTexture from '../tex/earth/earth.jpg';
-import EarthBumpTexture from '../tex/earth/earthbump.jpg';
-import EarthSpecTexture from '../tex/earth/earthspec.jpg';
-import EarthColorCloud from '../tex/earth/earthcloudmap.jpg';
+import EarthTexture from '../../tex/earth/earth.jpg';
+import EarthBumpTexture from '../../tex/earth/earthbump.jpg';
+import EarthSpecTexture from '../../tex/earth/earthspec.jpg';
+import EarthColorCloud from '../../tex/earth/earthcloudmap.jpg';
 
-import {Planet} from ".";
+import {EarthOrbit, Planet} from "..";
 
 const settings = {
   name: 'Earth',
   radius: 1,
-  rotateSpeed: 0.0001
+  rotateSpeed: -0.0002
 };
 
 class Earth extends Planet {
   constructor(scene) {
     super(scene, settings);
-
-    this.init();
   }
 
   init() {
     super.init();
     this.configureMaterial();
 
-    this.mesh.position.x = 10;
+    this.earthOrbit = new EarthOrbit();
+    this.earthOrbit.mesh.add(this.mesh);
+
+    this.mesh.position.x = this.earthOrbit.radius;
+
+    this.scene.add(this.earthOrbit.mesh);
   }
 
   configureMaterial() {
@@ -36,7 +39,6 @@ class Earth extends Planet {
     this.material.bumpMap = bumpMapTexture ? bumpMapTexture : null;
     this.material.specularMap = specularMap ? specularMap : null;
     this.material.specular = new THREE.Color('grey');
-    this.material.depthWrite = false;
     this.material.bumpScale = 0.05;
     this.material.shininess = 0.1;
 
@@ -49,6 +51,11 @@ class Earth extends Planet {
 
     this.cloudMesh = new THREE.Mesh(this.geometry, this.cloudsMaterial);
     this.mesh.add(this.cloudMesh);
+  }
+
+  move(time) {
+    super.move(time);
+    this.earthOrbit.move(time);
   }
 }
 

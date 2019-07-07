@@ -1,13 +1,12 @@
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
-import {Earth, Sun} from ".";
+import {Earth, Sun, Galaxy} from ".";
 
 class SolarSystem extends THREE.Object3D {
   constructor() {
     super();
 
     this.planets = [];
-    this.orbits = [];
 
     this.init();
   }
@@ -16,8 +15,8 @@ class SolarSystem extends THREE.Object3D {
     this.createRenderer();
     this.createScene();
 
+    this.createGalaxy();
     this.createPlanets();
-    this.createOrbits();
 
     this.createCamera();
     this.createControls();
@@ -36,13 +35,17 @@ class SolarSystem extends THREE.Object3D {
   }
 
   createCamera() {
-    const fov = 35;
+    const fov = 75;
     const aspect = this.canvas.clientWidth / this.canvas.clientHeight;
     const near = 0.1;
     const far = 1000;
     this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     this.camera.position.set(0, 5, 20);
     this.camera.lookAt(this.sun.position);
+  }
+
+  createGalaxy() {
+    this.galaxy = new Galaxy(this.scene, this.renderer);
   }
 
   createPlanets() {
@@ -53,20 +56,15 @@ class SolarSystem extends THREE.Object3D {
     this.planets.push(this.earth);
   }
 
-  createOrbits() {
-    // this.earthOrbit = new THREE.Object3D();
-    // this.earthOrbit.position.x = 10;
-  }
-
   createControls() {
-    // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-    // this.controls.enablePan = false;
-    // this.controls.target.set(this.sun.position.x, this.sun.position.y, this.sun.position.z);
+    this.controls.enablePan = false;
+    this.controls.target.set(this.sun.position.x, this.sun.position.y, this.sun.position.z);
   }
 
   createLights() {
-    this.ambientLight = new THREE.AmbientLight(0x404040, 1);
+    this.ambientLight = new THREE.AmbientLight(0x404040, 0.1);
     this.scene.add(this.ambientLight);
 
     this.ambientLightHelper = new THREE.PointLightHelper(this.ambientLight, 1);
@@ -90,6 +88,7 @@ class SolarSystem extends THREE.Object3D {
     if (this.resizeRendererToDisplaySize()) {
       this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
       this.camera.updateProjectionMatrix();
+      this.galaxy.resize();
     }
 
     this.planets.forEach(planet => {
