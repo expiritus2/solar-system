@@ -10,18 +10,21 @@ class Orbit extends THREE.Object3D {
     this.rotateSpeed = rotateSpeed;
     this.name = name;
 
-    this.segments = 32;
+    this.segments = 64;
     this.materialOptions = materialOptions;
 
     this.init();
   }
 
   init() {
-    this.geometry = new THREE.SphereBufferGeometry(this.radius, this.segments, this.segments);
+    this.geometry = new THREE.RingGeometry(this.radius, this.radius + 0.05, this.segments);
+    this.geometry.rotateX(THREE.Math.degToRad(90));
     this.material = new THREE.MeshPhongMaterial({
       transparent: true,
       opacity: 0,
       depthWrite: false,
+      side: THREE.DoubleSide,
+      // emissive: 0xffffff,
       ...this.materialOptions,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);

@@ -9,31 +9,46 @@ class Galaxy {
   constructor(scene, renderer) {
     this.scene = scene;
     this.renderer = renderer;
+    this.canvasWidth = this.renderer.domElement.clientWidth;
+    this.canvasHeight = this.renderer.domElement.clientHeight;
 
     this.init();
   }
 
   init() {
-    this.texture = new THREE.TextureLoader().load(GalaxyTexture);
-    this.texture.wrapS = THREE.RepeatWrapping;
-    this.texture.wrapT = THREE.RepeatWrapping;
+    this.loader = new THREE.TextureLoader();
 
-    this.geometry = new THREE.SphereBufferGeometry(settings.radius, 32, 32);
-    this.material = new THREE.MeshBasicMaterial();
-    this.material.map = this.texture;
-    this.material.side = THREE.BackSide;
+    this.loader.load(GalaxyTexture, (texture) => {
+      this.texture = texture;
+      this.texture.wrapS = THREE.RepeatWrapping;
+      this.texture.wrapT = THREE.RepeatWrapping;
 
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.name = 'Galaxy';
-    this.scene.add(this.mesh);
+      this.textureWidth = this.texture.image.width;
+      this.textureHeight = this.texture.image.height;
+      this.repeatTexture();
+
+      this.geometry = new THREE.SphereBufferGeometry(settings.radius, 32, 32);
+      this.material = new THREE.MeshBasicMaterial();
+      this.material.map = this.texture;
+      this.material.side = THREE.BackSide;
+
+      this.mesh = new THREE.Mesh(this.geometry, this.material);
+      this.mesh.name = 'Galaxy';
+      this.scene.add(this.mesh);
+    });
+  }
+
+  repeatTexture() {
+    // this.texture.repeat.set((this.canvasWidth / this.textureWidth) * (settings.radius / this.textureWidth), (this.canvasHeight / this.textureHeight) * (settings.radius / this.textureHeight));
+    this.texture.repeat.set((this.canvasWidth / this.textureWidth) + 1, (this.canvasHeight / this.textureHeight) + 10);
   }
 
   resize() {
-    console.log('resize');
-    const width = this.renderer.domElement.clientWidth;
-    const height = this.renderer.domElement.clientHeight;
-    this.texture.repeat.set((width / 184), (height / 123));
-    // 184 x 123
+    if(this.texture) {
+      this.canvasWidth = this.renderer.domElement.clientWidth;
+      this.canvasHeight = this.renderer.domElement.clientHeight;
+      this.repeatTexture();
+    }
   }
 }
 
