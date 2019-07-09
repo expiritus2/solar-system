@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import {Orbit, Planet} from "../..";
+import {Planet} from "../..";
 import SaturnTexture from '../../../tex/saturn/saturnmap.jpg';
 import RingColorTexture from '../../../tex/saturn/saturnringcolor.jpg';
 import RingBumpTexture from '../../../tex/saturn/saturnringpattern.gif';
@@ -16,15 +16,6 @@ class Saturn extends Planet {
     super.init();
     this.createOrbit();
     this.configureMaterial();
-  }
-
-  createOrbit() {
-    this.orbit = new Orbit(this.className);
-    this.orbit.mesh.add(this.mesh);
-
-    this.mesh.position.x = this.orbit.radius;
-
-    this.scene.add(this.orbit.mesh);
   }
 
   configureMaterial() {

@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import VenusTexture from '../../../tex/venus/venusmap.jpg';
 import VenusTextureBump from '../../../tex/venus/venusbump.jpg';
 
-import {Orbit, Planet} from "../..";
+import {Planet} from "../..";
 
 class Venus extends Planet {
   constructor(scene) {
@@ -14,17 +14,7 @@ class Venus extends Planet {
 
   init() {
     super.init();
-    this.createOrbit();
     this.configureMaterial();
-  }
-
-  createOrbit() {
-    this.orbit = new Orbit(this.className);
-    this.orbit.mesh.add(this.mesh);
-
-    this.mesh.position.x = this.orbit.radius;
-
-    this.scene.add(this.orbit.mesh);
   }
 
   configureMaterial() {

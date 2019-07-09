@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import {Planet, Orbit} from "../..";
+import {Planet} from "../..";
 import MercuryTexture from '../../../tex/mercury/mercurymap.jpg';
 import MercuryBumpTexture from '../../../tex/mercury/mercurybump.jpg';
 
@@ -13,17 +13,7 @@ class Mercury extends Planet {
 
   init() {
     super.init();
-    this.createOrbit();
     this.configureMaterial();
-  }
-
-  createOrbit() {
-    this.orbit = new Orbit(this.className);
-    this.orbit.mesh.add(this.mesh);
-
-    this.mesh.position.x = this.orbit.radius;
-
-    this.scene.add(this.orbit.mesh);
   }
 
   configureMaterial() {

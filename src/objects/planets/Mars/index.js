@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import {Orbit, Planet} from "../../";
+import {Planet} from "../../";
 import MarsTexture from "../../../tex/mars/marsmap.jpg";
 import MarsTextureBump from "../../../tex/mars/marsbump.jpg";
 
@@ -13,17 +13,7 @@ class Mars extends Planet{
 
   init() {
     super.init();
-    this.createOrbit();
     this.configureMaterial();
-  }
-
-  createOrbit() {
-    this.orbit = new Orbit(this.className);
-    this.orbit.mesh.add(this.mesh);
-
-    this.mesh.position.x = this.orbit.radius;
-
-    this.scene.add(this.orbit.mesh);
   }
 
   configureMaterial() {

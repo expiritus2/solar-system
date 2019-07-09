@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import { settings } from "../../settings";
+import {Orbit} from "../index";
 
 class Planet extends THREE.Object3D {
   constructor(scene) {
@@ -21,7 +22,7 @@ class Planet extends THREE.Object3D {
     this.materialOptions = materialOptions;
 
     this.createPlanet();
-
+    this.createOrbit();
   }
 
   createPlanet() {
@@ -29,6 +30,15 @@ class Planet extends THREE.Object3D {
     this.material = new THREE.MeshPhongMaterial({...this.materialOptions});
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.name = this.name;
+  }
+
+  createOrbit() {
+    this.orbit = new Orbit(this.className);
+    this.orbit.mesh.add(this.mesh);
+
+    this.mesh.position.x = this.orbit.radius;
+
+    this.scene.add(this.orbit.mesh);
   }
 
   move(time) {

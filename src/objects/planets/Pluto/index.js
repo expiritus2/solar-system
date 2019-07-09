@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import {Orbit, Planet} from "../../";
+import {Planet} from "../../";
 import PlutoTexture from "../../../tex/pluto/plutomap.jpg";
 import PlutoTextureBump from "../../../tex/pluto/plutobump.jpg";
 
@@ -15,15 +15,6 @@ class Pluto extends Planet{
     super.init();
     this.createOrbit();
     this.configureMaterial();
-  }
-
-  createOrbit() {
-    this.orbit = new Orbit(this.className);
-    this.orbit.mesh.add(this.mesh);
-
-    this.mesh.position.x = this.orbit.radius;
-
-    this.scene.add(this.orbit.mesh);
   }
 
   configureMaterial() {

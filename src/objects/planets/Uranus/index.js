@@ -1,4 +1,4 @@
-import {Orbit, Planet} from "../../index";
+import {Planet} from "../../index";
 import * as THREE from "three";
 import UranusTexture from "../../../tex/uranus/uranusmap.jpg";
 import UranusColorTexture from "../../../tex/uranus/uranusringcolour.jpg";
@@ -15,15 +15,6 @@ class Uranus extends Planet {
     super.init();
     this.createOrbit();
     this.configureMaterial();
-  }
-
-  createOrbit() {
-    this.orbit = new Orbit(this.className);
-    this.orbit.mesh.add(this.mesh);
-
-    this.mesh.position.x = this.orbit.radius;
-
-    this.scene.add(this.orbit.mesh);
   }
 
   configureMaterial() {

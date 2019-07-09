@@ -5,7 +5,7 @@ import EarthBumpTexture from '../../../tex/earth/earthbump.jpg';
 import EarthSpecTexture from '../../../tex/earth/earthspec.jpg';
 import EarthColorCloud from '../../../tex/earth/earthcloudmap.jpg';
 
-import {Orbit, Planet} from "../..";
+import {Planet} from "../..";
 
 class Earth extends Planet {
   constructor(scene) {
@@ -16,18 +16,8 @@ class Earth extends Planet {
 
   init() {
     super.init();
-    this.createOrbit();
     this.configureMaterial();
     this.createClouds();
-  }
-
-  createOrbit() {
-    this.orbit = new Orbit(this.className);
-    this.orbit.mesh.add(this.mesh);
-
-    this.mesh.position.x = this.orbit.radius;
-
-    this.scene.add(this.orbit.mesh);
   }
 
   configureMaterial() {
