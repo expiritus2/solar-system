@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
-import {Earth, Sun, Galaxy, Saturn, Mercury} from ".";
+import {Earth, Sun, Galaxy, Saturn, Mercury, Venus, Mars, Jupiter, Uranus, Neptune, Pluto} from ".";
 
 class SolarSystem extends THREE.Object3D {
   constructor() {
@@ -51,13 +51,25 @@ class SolarSystem extends THREE.Object3D {
   createPlanets() {
     this.sun = new Sun(this.scene);
     this.mercury = new Mercury(this.scene);
+    this.venus = new Venus(this.scene);
     this.earth = new Earth(this.scene);
+    this.mars = new Mars(this.scene);
+    this.jupiter = new Jupiter(this.scene);
     this.saturn = new Saturn(this.scene);
+    this.uranus = new Uranus(this.scene);
+    this.neptune = new Neptune(this.scene);
+    this.pluto = new Pluto(this.scene);
 
     this.planets.push(this.sun);
     this.planets.push(this.mercury);
+    this.planets.push(this.venus);
     this.planets.push(this.earth);
+    this.planets.push(this.mars);
+    this.planets.push(this.jupiter);
     this.planets.push(this.saturn);
+    this.planets.push(this.uranus);
+    this.planets.push(this.neptune);
+    this.planets.push(this.pluto);
   }
 
   createControls() {

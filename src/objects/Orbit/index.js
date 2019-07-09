@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 
+import { settings } from "../../settings";
+
 class Orbit extends THREE.Object3D {
-  constructor(settings) {
+  constructor(planetName) {
     super();
 
-    const {name, radius, rotateSpeed, materialOptions} = settings;
+    const {name, radius, rotateSpeed, materialOptions} = settings[planetName].orbit;
 
     this.radius = radius;
     this.rotateSpeed = rotateSpeed;
@@ -24,7 +26,6 @@ class Orbit extends THREE.Object3D {
       opacity: 0,
       depthWrite: false,
       side: THREE.DoubleSide,
-      // emissive: 0xffffff,
       ...this.materialOptions,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
