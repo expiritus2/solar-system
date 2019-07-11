@@ -1,9 +1,6 @@
 import * as THREE from 'three';
 
 import {Planet} from "../..";
-import SaturnTexture from '../../../tex/saturn/saturnmap.jpg';
-import RingColorTexture from '../../../tex/saturn/saturnringcolor.jpg';
-import RingBumpTexture from '../../../tex/saturn/saturnringpattern.gif';
 
 class Saturn extends Planet {
   constructor(scene) {
@@ -19,7 +16,8 @@ class Saturn extends Planet {
   }
 
   configureMaterial() {
-    this.material.map = new THREE.TextureLoader().load(SaturnTexture);
+    const {saturn:{saturnmap}} = this.textures;
+    this.material.map = new THREE.TextureLoader().load(saturnmap);
     this.material.specular = new THREE.Color('grey');
     this.material.shininess = 0.1;
 
@@ -35,8 +33,10 @@ class Saturn extends Planet {
 
 
   createRing(increaseInnerRadius, increaseOuterRadius, opacity) {
-    const ringTexture = new THREE.TextureLoader().load(RingColorTexture);
-    const ringBumpTexture = new THREE.TextureLoader().load(RingBumpTexture);
+    const {saturn:{saturnringcolor, saturnringpattern}} = this.textures;
+
+    const ringTexture = new THREE.TextureLoader().load(saturnringcolor);
+    const ringBumpTexture = new THREE.TextureLoader().load(saturnringpattern);
 
     this.geometry = new THREE.RingBufferGeometry(this.radius + increaseInnerRadius, this.radius + increaseOuterRadius, 64);
     this.geometry.rotateX(THREE.Math.degToRad(-120));

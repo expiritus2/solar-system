@@ -1,10 +1,5 @@
 import * as THREE from 'three';
 
-import EarthTexture from '../../../tex/earth/earth.jpg';
-import EarthBumpTexture from '../../../tex/earth/earthbump.jpg';
-import EarthSpecTexture from '../../../tex/earth/earthspec.jpg';
-import EarthColorCloud from '../../../tex/earth/earthcloudmap.jpg';
-
 import {Planet} from "../..";
 
 class Earth extends Planet {
@@ -21,9 +16,10 @@ class Earth extends Planet {
   }
 
   configureMaterial() {
-    const texture = new THREE.TextureLoader().load(EarthTexture);
-    const bumpMapTexture = new THREE.TextureLoader().load(EarthBumpTexture);
-    const specularMap = new THREE.TextureLoader().load(EarthSpecTexture);
+    const { earth: { earth, earthbump, earthspec } } = this.textures;
+    const texture = new THREE.TextureLoader().load(earth);
+    const bumpMapTexture = new THREE.TextureLoader().load(earthbump);
+    const specularMap = new THREE.TextureLoader().load(earthspec);
 
     this.material.map = texture;
     this.material.bumpMap = bumpMapTexture;
@@ -34,8 +30,10 @@ class Earth extends Planet {
   }
 
   createClouds() {
+    const { earth: { earthcloudmap } } = this.textures;
+
     this.cloudsMaterial = new THREE.MeshLambertMaterial({
-      map: new THREE.TextureLoader().load(EarthColorCloud),
+      map: new THREE.TextureLoader().load(earthcloudmap),
       opacity: 0.1,
       transparent: true,
       depthWrite: false,

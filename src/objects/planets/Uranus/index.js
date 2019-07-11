@@ -1,8 +1,6 @@
-import {Planet} from "../../index";
 import * as THREE from "three";
-import UranusTexture from "../../../tex/uranus/uranusmap.jpg";
-import UranusColorTexture from "../../../tex/uranus/uranusringcolour.jpg";
-import UranusBumpTexture from "../../../tex/uranus/uranusringtrans.gif";
+
+import {Planet} from "../../index";
 
 class Uranus extends Planet {
   constructor(scene) {
@@ -18,7 +16,9 @@ class Uranus extends Planet {
   }
 
   configureMaterial() {
-    this.material.map = new THREE.TextureLoader().load(UranusTexture);
+    const {uranus:{uranusmap}} = this.textures;
+
+    this.material.map = new THREE.TextureLoader().load(uranusmap);
     this.material.specular = new THREE.Color('grey');
     this.material.shininess = 0.1;
 
@@ -33,8 +33,10 @@ class Uranus extends Planet {
   }
 
   createRing(increaseInnerRadius, increaseOuterRadius, opacity) {
-    const ringTexture = new THREE.TextureLoader().load(UranusColorTexture);
-    const ringBumpTexture = new THREE.TextureLoader().load(UranusBumpTexture);
+    const {uranus:{uranusringcolour, uranusringtrans}} = this.textures;
+
+    const ringTexture = new THREE.TextureLoader().load(uranusringcolour);
+    const ringBumpTexture = new THREE.TextureLoader().load(uranusringtrans);
 
     this.geometry = new THREE.RingBufferGeometry(this.radius + increaseInnerRadius, this.radius + increaseOuterRadius, 64);
     this.material = new THREE.MeshPhongMaterial();

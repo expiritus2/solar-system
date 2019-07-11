@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 import {Planet} from "../..";
 
-import JupiterTexture from "../../../tex/jupiter/jupitermap.jpg";
-
 class Jupiter extends Planet{
   constructor(scene) {
     super(scene);
@@ -16,7 +14,9 @@ class Jupiter extends Planet{
   }
 
   configureMaterial() {
-    this.material.map = new THREE.TextureLoader().load(JupiterTexture);
+    const { jupiter: { jupitermap } } = this.textures;
+
+    this.material.map = new THREE.TextureLoader().load(jupitermap);
     this.material.shininess = 0.1;
   }
 

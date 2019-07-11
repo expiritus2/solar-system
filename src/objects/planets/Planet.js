@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import { settings } from "../../settings";
+import {importAllTextures} from "../../helpers";
 import {Orbit} from "../index";
 
 class Planet extends THREE.Object3D {
@@ -8,6 +9,7 @@ class Planet extends THREE.Object3D {
     super();
 
     this.scene = scene;
+    this.textures = importAllTextures();
 
     this.init();
   }

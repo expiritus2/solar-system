@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 
 import {Planet} from "../..";
-import MercuryTexture from '../../../tex/mercury/mercurymap.jpg';
-import MercuryBumpTexture from '../../../tex/mercury/mercurybump.jpg';
 
 class Mercury extends Planet {
   constructor(scene) {
@@ -17,8 +15,10 @@ class Mercury extends Planet {
   }
 
   configureMaterial() {
-    const texture = new THREE.TextureLoader().load(MercuryTexture);
-    const bumpTexture = new THREE.TextureLoader().load(MercuryBumpTexture);
+    const { mercury: {mercurymap, mercurybump} } = this.textures;
+
+    const texture = new THREE.TextureLoader().load(mercurymap);
+    const bumpTexture = new THREE.TextureLoader().load(mercurybump);
 
     this.material.map = texture;
     this.material.bumpMap = bumpTexture;

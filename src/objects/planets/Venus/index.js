@@ -1,8 +1,5 @@
 import * as THREE from 'three';
 
-import VenusTexture from '../../../tex/venus/venusmap.jpg';
-import VenusTextureBump from '../../../tex/venus/venusbump.jpg';
-
 import {Planet} from "../..";
 
 class Venus extends Planet {
@@ -18,8 +15,9 @@ class Venus extends Planet {
   }
 
   configureMaterial() {
-    const texture = new THREE.TextureLoader().load(VenusTexture);
-    const bumpTexture = new THREE.TextureLoader().load(VenusTextureBump);
+    const {venus:{venusmap, venusbump}} = this.textures;
+    const texture = new THREE.TextureLoader().load(venusmap);
+    const bumpTexture = new THREE.TextureLoader().load(venusbump);
 
     this.material.map = texture;
     this.material.bumpMap = bumpTexture;

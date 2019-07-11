@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 
 import {Planet} from "../../";
-import PlutoTexture from "../../../tex/pluto/plutomap.jpg";
-import PlutoTextureBump from "../../../tex/pluto/plutobump.jpg";
 
 class Pluto extends Planet{
   constructor(scene) {
@@ -18,8 +16,9 @@ class Pluto extends Planet{
   }
 
   configureMaterial() {
-    const texture = new THREE.TextureLoader().load(PlutoTexture);
-    const bumpTexture = new THREE.TextureLoader().load(PlutoTextureBump);
+    const {pluto:{plutomap, plutobump}} = this.textures;
+    const texture = new THREE.TextureLoader().load(plutomap);
+    const bumpTexture = new THREE.TextureLoader().load(plutobump);
 
     this.material.map = texture;
     this.material.bumpMap = bumpTexture;

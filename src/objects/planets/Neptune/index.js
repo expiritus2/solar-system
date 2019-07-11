@@ -1,6 +1,6 @@
-import {Planet} from "../../index";
 import * as THREE from "three";
-import NeptuneTexture from "../../../tex/neptune/neptunemap.jpg";
+
+import {Planet} from "../../index";
 
 class Neptune extends Planet {
   constructor(scene) {
@@ -15,7 +15,9 @@ class Neptune extends Planet {
   }
 
   configureMaterial() {
-    this.material.map = new THREE.TextureLoader().load(NeptuneTexture);
+    const {neptune: {neptunemap}} = this.textures;
+
+    this.material.map = new THREE.TextureLoader().load(neptunemap);
     this.material.shininess = 0.1;
   }
 
