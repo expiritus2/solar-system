@@ -7,6 +7,7 @@ class Sun extends THREE.Object3D {
 
     this.scene = scene;
     this.className = this.constructor.name.toLowerCase();
+    console.log(this.constructor.name);
 
     this.init();
   }

@@ -3,6 +3,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   module: {
@@ -14,7 +15,7 @@ module.exports = {
           loader: "babel-loader",
           options: {
             babelrc: true,
-            extends: path.resolve(__dirname, '.babelrc'),
+            extends: path.resolve(__dirname, '..', '.babelrc'),
             cacheDirectory: true,
           }
         }
@@ -51,5 +52,19 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'styles.[contenthash].css'
     })
-  ]
+  ],
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: true,
+          ecma: 6,
+          mangle: true,
+          keep_fnames: true,
+        },
+      })
+    ]
+  }
 };
