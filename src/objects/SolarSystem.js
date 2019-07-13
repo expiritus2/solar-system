@@ -52,26 +52,19 @@ class SolarSystem extends THREE.Object3D {
 
   createPlanets() {
     this.sun = new Sun(this.scene);
-    this.mercury = new Mercury(this.scene);
-    this.venus = new Venus(this.scene);
-    this.earth = new Earth(this.scene);
-    this.mars = new Mars(this.scene);
-    this.jupiter = new Jupiter(this.scene);
-    this.saturn = new Saturn(this.scene);
-    this.uranus = new Uranus(this.scene);
-    this.neptune = new Neptune(this.scene);
-    this.pluto = new Pluto(this.scene);
 
-    this.planets.push(this.sun);
-    this.planets.push(this.mercury);
-    this.planets.push(this.venus);
-    this.planets.push(this.earth);
-    this.planets.push(this.mars);
-    this.planets.push(this.jupiter);
-    this.planets.push(this.saturn);
-    this.planets.push(this.uranus);
-    this.planets.push(this.neptune);
-    this.planets.push(this.pluto);
+    this.planets = [
+      this.sun,
+      new Mercury(this.scene),
+      new Venus(this.scene),
+      new Earth(this.scene),
+      new Mars(this.scene),
+      new Jupiter(this.scene),
+      new Saturn(this.scene),
+      new Uranus(this.scene),
+      new Neptune(this.scene),
+      new Pluto(this.scene)
+    ];
   }
 
   createControls() {
@@ -104,7 +97,7 @@ class SolarSystem extends THREE.Object3D {
     return needResize;
   }
 
-  render(time) {
+  render() {
     if (this.resizeRendererToDisplaySize()) {
       this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
       this.camera.updateProjectionMatrix();
@@ -116,6 +109,7 @@ class SolarSystem extends THREE.Object3D {
     });
 
     this.renderer.render(this.scene, this.camera);
+    this.controls.update();
 
     requestAnimationFrame(this.render.bind(this))
   }
