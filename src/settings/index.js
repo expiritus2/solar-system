@@ -2,7 +2,7 @@ export const settings = {
   sun: {
     name: 'Sun',
     radius: 3,
-    rotateSpeed: 0.001
+    rotateSpeed: 0.0001
   },
   mercury: {
     name: 'Saturn',
@@ -11,7 +11,8 @@ export const settings = {
     orbit: {
       name: 'SaturnOrbit',
       radius: 5,
-      rotateSpeed: 0.0001
+      rotateSpeed: 0.001,
+      startAngleY: 45,
     }
   },
   venus: {
@@ -21,7 +22,8 @@ export const settings = {
     orbit: {
       name: 'VenusOrbit',
       radius: 7,
-      rotateSpeed: 0.0001
+      rotateSpeed: 0.001,
+      startAngleY: 90,
     }
   },
   earth: {
@@ -31,7 +33,8 @@ export const settings = {
     orbit: {
       name: 'EarthOrbit',
       radius: 10,
-      rotateSpeed: 0.0001
+      rotateSpeed: 0.001,
+      startAngleY: 120,
     }
   },
   mars: {
@@ -41,7 +44,8 @@ export const settings = {
     orbit: {
       name: 'MarsOrbit',
       radius: 13,
-      rotateSpeed: 0.0001
+      rotateSpeed: 0.001,
+      startAngleY: -45,
     }
   },
   jupiter: {
@@ -51,7 +55,8 @@ export const settings = {
     orbit: {
       name: 'JupiterOrbit',
       radius: 16,
-      rotateSpeed: 0.0001
+      rotateSpeed: 0.001,
+      startAngleY: 0,
     }
   },
   saturn: {
@@ -61,7 +66,8 @@ export const settings = {
     orbit: {
       name: 'SaturnOrbit',
       radius: 19,
-      rotateSpeed: 0.0001
+      rotateSpeed: 0.001,
+      startAngleY: 45,
     }
   },
   uranus: {
@@ -71,7 +77,8 @@ export const settings = {
     orbit: {
       name: 'UranusOrbit',
       radius: 22,
-      rotateSpeed: 0.0001
+      rotateSpeed: 0.001,
+      startAngleY: 180,
     }
   },
   neptune: {
@@ -81,7 +88,8 @@ export const settings = {
     orbit: {
       name: 'NeptuneOrbit',
       radius: 25,
-      rotateSpeed: 0.0001
+      rotateSpeed: 0.001,
+      startAngleY: 240,
     }
   },
   pluto: {
@@ -91,7 +99,8 @@ export const settings = {
     orbit: {
       name: 'PlutoOrbit',
       radius: 28,
-      rotateSpeed: 0.0001
+      rotateSpeed: 0.001,
+      startAngleY: 0,
     }
   },
 };

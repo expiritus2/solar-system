@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { settings } from "../../settings";
+import {importAllTextures} from "../../helpers";
 
 class Sun extends THREE.Object3D {
   constructor(scene) {
@@ -7,16 +8,24 @@ class Sun extends THREE.Object3D {
 
     this.scene = scene;
     this.className = this.constructor.name.toLowerCase();
-    console.log(this.constructor.name);
+    this.textures = importAllTextures();
+
+    const { rotateSpeed } = settings[this.className];
+    this.rotateSpeed = rotateSpeed;
 
     this.init();
   }
 
   init() {
     const { name, radius } = settings[this.className];
+    const { sun: {sunmap}} = this.textures;
+    this.texture = new THREE.TextureLoader().load(sunmap);
 
     this.geometry = new THREE.SphereBufferGeometry(radius, 32, 32);
-    this.material = new THREE.MeshPhongMaterial({emissive: 0xFFFF00});
+    this.material = new THREE.MeshPhongMaterial({
+      emissive: 0xFEF3A9,
+      emissiveMap: this.texture
+    });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.name = name;
     this.scene.add(this.mesh);
@@ -27,10 +36,8 @@ class Sun extends THREE.Object3D {
     this.scene.add(this.pointLight);
   }
 
-  move(time) {
-    time *= settings[this.className].rotateSpeed;
-
-    this.mesh.rotation.y = time;
+  move() {
+    this.mesh.rotation.y += this.rotateSpeed;
   }
 }
 

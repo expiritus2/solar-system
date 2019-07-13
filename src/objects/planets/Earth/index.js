@@ -26,7 +26,6 @@ class Earth extends Planet {
     this.material.specularMap = specularMap;
     this.material.specular = new THREE.Color('grey');
     this.material.bumpScale = 0.05;
-    this.material.shininess = 0.1;
   }
 
   createClouds() {
@@ -43,9 +42,9 @@ class Earth extends Planet {
     this.mesh.add(this.cloudMesh);
   }
 
-  move(time) {
-    super.move(time);
-    this.orbit.move(time);
+  move() {
+    super.move();
+    this.orbit.move();
   }
 }
 

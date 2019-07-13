@@ -11,18 +11,19 @@ class Jupiter extends Planet{
   init() {
     super.init();
     this.configureMaterial();
+
+    this.startAngleY = 0;
   }
 
   configureMaterial() {
     const { jupiter: { jupitermap } } = this.textures;
 
     this.material.map = new THREE.TextureLoader().load(jupitermap);
-    this.material.shininess = 0.1;
   }
 
-  move(time) {
-    super.move(time);
-    this.orbit.move(time);
+  move() {
+    super.move();
+    this.orbit.move();
   }
 }
 

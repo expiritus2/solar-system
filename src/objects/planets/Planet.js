@@ -5,9 +5,10 @@ import {importAllTextures} from "../../helpers";
 import {Orbit} from "../index";
 
 class Planet extends THREE.Object3D {
-  constructor(scene) {
+  constructor(scene, startAngleY) {
     super();
 
+    this.startAngleY = startAngleY;
     this.scene = scene;
     this.textures = importAllTextures();
 
@@ -32,10 +33,11 @@ class Planet extends THREE.Object3D {
     this.material = new THREE.MeshPhongMaterial({...this.materialOptions});
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.name = this.name;
+    this.material.shininess = 0;
   }
 
   createOrbit() {
-    this.orbit = new Orbit(this.className);
+    this.orbit = new Orbit(this.className, this.startAngleY);
     this.orbit.mesh.add(this.mesh);
 
     this.mesh.position.x = this.orbit.radius;
@@ -43,10 +45,8 @@ class Planet extends THREE.Object3D {
     this.scene.add(this.orbit.mesh);
   }
 
-  move(time) {
-    time *= this.rotateSpeed;
-
-    this.mesh.rotation.y = time;
+  move() {
+    this.mesh.rotation.y += this.rotateSpeed;
   }
 }
 

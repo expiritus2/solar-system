@@ -20,7 +20,6 @@ class Uranus extends Planet {
 
     this.material.map = new THREE.TextureLoader().load(uranusmap);
     this.material.specular = new THREE.Color('grey');
-    this.material.shininess = 0.1;
 
     this.createRings(20);
   }
@@ -52,9 +51,9 @@ class Uranus extends Planet {
     return new THREE.Mesh(this.geometry, this.material);
   }
 
-  move(time) {
-    super.move(time);
-    this.orbit.move(time);
+  move() {
+    super.move();
+    this.orbit.move();
   }
 }
 

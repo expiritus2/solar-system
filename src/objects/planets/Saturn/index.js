@@ -19,7 +19,6 @@ class Saturn extends Planet {
     const {saturn:{saturnmap}} = this.textures;
     this.material.map = new THREE.TextureLoader().load(saturnmap);
     this.material.specular = new THREE.Color('grey');
-    this.material.shininess = 0.1;
 
     this.createRings(5);
   }
@@ -53,9 +52,9 @@ class Saturn extends Planet {
     return new THREE.Mesh(this.geometry, this.material);
   }
 
-  move(time) {
-    super.move(time);
-    this.orbit.move(time);
+  move() {
+    super.move();
+    this.orbit.move();
   }
 }
 

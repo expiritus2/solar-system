@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
 import {Earth, Sun, Galaxy, Saturn, Mercury, Venus, Mars, Jupiter, Uranus, Neptune, Pluto} from ".";
+import { settings } from "../settings";
 
 class SolarSystem extends THREE.Object3D {
   constructor() {
@@ -35,12 +36,13 @@ class SolarSystem extends THREE.Object3D {
   }
 
   createCamera() {
-    const fov = 75;
+    const horizontalFov = 90;
     const aspect = this.canvas.clientWidth / this.canvas.clientHeight;
+    const fov = (Math.atan(Math.tan(((horizontalFov / 2) * Math.PI) / 180) / aspect) * 2 * 180) / Math.PI;
     const near = 0.1;
     const far = 1000;
     this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    this.camera.position.set(0, 5, 20);
+    this.camera.position.set(0, 20, 50);
     this.camera.lookAt(this.sun.position);
   }
 
@@ -77,6 +79,8 @@ class SolarSystem extends THREE.Object3D {
 
     this.controls.enablePan = false;
     this.controls.target.set(this.sun.position.x, this.sun.position.y, this.sun.position.z);
+    this.controls.minDistance = settings.sun.radius + 2;
+    this.controls.maxDistance = 90;
   }
 
   createLights() {
@@ -108,7 +112,7 @@ class SolarSystem extends THREE.Object3D {
     }
 
     this.planets.forEach(planet => {
-      planet.move(time);
+      planet.move();
     });
 
     this.renderer.render(this.scene, this.camera);

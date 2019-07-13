@@ -21,13 +21,12 @@ class Venus extends Planet {
 
     this.material.map = texture;
     this.material.bumpMap = bumpTexture;
-    this.material.bumpScale = 0.05;
-    this.material.shininess = 0.1;
+    this.material.bumpScale = 0.02;
   }
 
-  move(time) {
-    super.move(time);
-    this.orbit.move(time);
+  move() {
+    super.move();
+    this.orbit.move();
   }
 }
 

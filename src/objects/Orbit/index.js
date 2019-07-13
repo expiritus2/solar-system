@@ -6,8 +6,10 @@ class Orbit extends THREE.Object3D {
   constructor(planetName) {
     super();
 
-    const {name, radius, rotateSpeed, materialOptions} = settings[planetName].orbit;
+    this.planetName = planetName;
+    const {name, radius, rotateSpeed, materialOptions, startAngleY = 0} = settings[this.planetName].orbit;
 
+    this.startAngleY = startAngleY;
     this.radius = radius;
     this.rotateSpeed = rotateSpeed;
     this.name = name;
@@ -23,19 +25,19 @@ class Orbit extends THREE.Object3D {
     this.geometry.rotateX(THREE.Math.degToRad(90));
     this.material = new THREE.MeshPhongMaterial({
       transparent: true,
-      opacity: 0,
+      opacity: 1,
       depthWrite: false,
       side: THREE.DoubleSide,
       ...this.materialOptions,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.name = this.name;
+
+    this.mesh.rotation.y = THREE.Math.degToRad(this.startAngleY);
   }
 
-  move(time) {
-    time *= this.rotateSpeed;
-
-    this.mesh.rotation.y = time;
+  move() {
+    this.mesh.rotation.y += this.rotateSpeed;
   }
 }
 
