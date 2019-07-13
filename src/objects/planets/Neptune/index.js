@@ -19,11 +19,6 @@ class Neptune extends Planet {
 
     this.material.map = new THREE.TextureLoader().load(neptunemap);
   }
-
-  move() {
-    super.move();
-    this.orbit.move();
-  }
 }
 
 export default Neptune;

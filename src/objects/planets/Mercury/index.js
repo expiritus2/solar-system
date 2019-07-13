@@ -25,11 +25,6 @@ class Mercury extends Planet {
     this.material.specular = new THREE.Color('grey');
     this.material.bumpScale = 0.01;
   }
-
-  move() {
-    super.move();
-    this.orbit.move();
-  }
 }
 
 export default Mercury;

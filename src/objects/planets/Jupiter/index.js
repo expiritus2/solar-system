@@ -20,11 +20,6 @@ class Jupiter extends Planet{
 
     this.material.map = new THREE.TextureLoader().load(jupitermap);
   }
-
-  move() {
-    super.move();
-    this.orbit.move();
-  }
 }
 
 export default Jupiter;

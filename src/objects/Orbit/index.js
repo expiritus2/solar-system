@@ -7,12 +7,13 @@ class Orbit extends THREE.Object3D {
     super();
 
     this.planetName = planetName;
-    const {name, radius, rotateSpeed, materialOptions, startAngleY = 0} = settings[this.planetName].orbit;
+    const {name, radius, rotateSpeed: orbitRotateSpeed, materialOptions, startAngleY = 0} = settings[this.planetName].orbit;
 
     this.startAngleY = startAngleY;
-    this.radius = radius;
-    this.rotateSpeed = rotateSpeed;
+    this.radius = radius.call(settings);
+    this.orbitRotateSpeed = orbitRotateSpeed;
     this.name = name;
+    this.stop = false;
 
     this.segments = 64;
     this.materialOptions = materialOptions;
@@ -37,7 +38,9 @@ class Orbit extends THREE.Object3D {
   }
 
   move() {
-    this.mesh.rotation.y += this.rotateSpeed;
+    if(!this.stop) {
+      this.mesh.rotation.y += this.orbitRotateSpeed;
+    }
   }
 }
 

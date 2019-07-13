@@ -24,11 +24,6 @@ class Mars extends Planet{
     this.material.bumpMap = bumpTexture;
     this.material.bumpScale = 0.05;
   }
-
-  move() {
-    super.move();
-    this.orbit.move();
-  }
 }
 
 export default Mars;

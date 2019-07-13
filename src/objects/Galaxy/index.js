@@ -39,7 +39,6 @@ class Galaxy {
   }
 
   repeatTexture() {
-    // this.texture.repeat.set((this.canvasWidth / this.textureWidth) * (settings.radius / this.textureWidth), (this.canvasHeight / this.textureHeight) * (settings.radius / this.textureHeight));
     this.texture.repeat.set((this.canvasWidth / this.textureWidth) + 1, (this.canvasHeight / this.textureHeight) + 10);
   }
 

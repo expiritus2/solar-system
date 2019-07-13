@@ -41,7 +41,7 @@ class Uranus extends Planet {
     this.material = new THREE.MeshPhongMaterial();
     this.material.map = ringTexture;
 
-    this.material.specularMap = ringBumpTexture ? ringBumpTexture : null;
+    this.material.specularMap = ringBumpTexture;
     this.material.specular = new THREE.Color('grey');
     this.material.shininess = 0.1;
     this.material.transparent = true;
@@ -49,11 +49,6 @@ class Uranus extends Planet {
 
     this.material.side = THREE.DoubleSide;
     return new THREE.Mesh(this.geometry, this.material);
-  }
-
-  move() {
-    super.move();
-    this.orbit.move();
   }
 }
 

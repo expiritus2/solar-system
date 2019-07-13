@@ -23,11 +23,6 @@ class Venus extends Planet {
     this.material.bumpMap = bumpTexture;
     this.material.bumpScale = 0.02;
   }
-
-  move() {
-    super.move();
-    this.orbit.move();
-  }
 }
 
 export default Venus;

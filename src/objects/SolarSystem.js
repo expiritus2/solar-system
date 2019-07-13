@@ -42,7 +42,7 @@ class SolarSystem extends THREE.Object3D {
     const near = 0.1;
     const far = 1000;
     this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    this.camera.position.set(0, 20, 50);
+    this.camera.position.set(0, 20, 60);
     this.camera.lookAt(this.sun.position);
   }
 

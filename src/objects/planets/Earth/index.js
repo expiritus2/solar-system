@@ -41,11 +41,6 @@ class Earth extends Planet {
     this.cloudMesh = new THREE.Mesh(this.geometry, this.cloudsMaterial);
     this.mesh.add(this.cloudMesh);
   }
-
-  move() {
-    super.move();
-    this.orbit.move();
-  }
 }
 
 export default Earth;

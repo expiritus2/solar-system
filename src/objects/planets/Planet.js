@@ -8,8 +8,8 @@ class Planet extends THREE.Object3D {
   constructor(scene, startAngleY) {
     super();
 
-    this.startAngleY = startAngleY;
     this.scene = scene;
+    this.startAngleY = startAngleY;
     this.textures = importAllTextures();
 
     this.init();
@@ -47,6 +47,7 @@ class Planet extends THREE.Object3D {
 
   move() {
     this.mesh.rotation.y += this.rotateSpeed;
+    this.orbit.move();
   }
 }
 

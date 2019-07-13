@@ -13,6 +13,8 @@ class Pluto extends Planet{
     super.init();
     this.createOrbit();
     this.configureMaterial();
+
+    this.orbit.mesh.rotateX(THREE.Math.degToRad(17));
   }
 
   configureMaterial() {
@@ -23,11 +25,6 @@ class Pluto extends Planet{
     this.material.map = texture;
     this.material.bumpMap = bumpTexture;
     this.material.bumpScale = 0.05;
-  }
-
-  move() {
-    super.move();
-    this.orbit.move();
   }
 }
 
