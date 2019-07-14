@@ -5,25 +5,32 @@ import {importAllTextures} from "../../helpers";
 import {Orbit} from "../index";
 
 class Planet extends THREE.Object3D {
-  constructor(scene, startAngleY) {
+  constructor(scene, parentPlanet) {
     super();
 
     this.scene = scene;
-    this.startAngleY = startAngleY;
     this.textures = importAllTextures();
+
+    this.className = this.constructor.name;
+    this.parentPlanet = parentPlanet;
+
+    const {name, radius, rotateSpeed, materialOptions} = this.getSettings();
+    this.name = name;
+    this.radius = typeof radius === 'function' ? radius.call(settings) : radius;
+    this.rotateSpeed = rotateSpeed;
+    this.materialOptions = materialOptions;
 
     this.init();
   }
 
+  getSettings() {
+    if (this.parentPlanet) {
+      return settings[this.parentPlanet.className].sputniks[this.className];
+    }
+    return settings[this.className] || {};
+  }
+
   init() {
-    this.className = this.constructor.name.toLowerCase();
-
-    const {name, radius, rotateSpeed, materialOptions} = settings[this.className];
-    this.radius = radius;
-    this.rotateSpeed = rotateSpeed;
-    this.name = name;
-    this.materialOptions = materialOptions;
-
     this.createPlanet();
     this.createOrbit();
   }
@@ -37,11 +44,9 @@ class Planet extends THREE.Object3D {
   }
 
   createOrbit() {
-    this.orbit = new Orbit(this.className, this.startAngleY);
-    this.orbit.mesh.add(this.mesh);
-
+    this.orbit = new Orbit(this.className, this.parentPlanet);
     this.mesh.position.x = this.orbit.radius;
-
+    this.orbit.mesh.add(this.mesh);
     this.scene.add(this.orbit.mesh);
   }
 

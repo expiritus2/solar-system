@@ -12,3 +12,4 @@ export { default as Jupiter } from './planets/Jupiter';
 export { default as Uranus} from './planets/Uranus';
 export { default as Neptune } from './planets/Neptune';
 export { default as Pluto } from './planets/Pluto';
+export { default as Moon } from './planets/Earth/Moon';

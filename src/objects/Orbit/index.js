@@ -3,11 +3,12 @@ import * as THREE from 'three';
 import { settings } from "../../settings";
 
 class Orbit extends THREE.Object3D {
-  constructor(planetName) {
+  constructor(planetName, parentPlanet) {
     super();
 
     this.planetName = planetName;
-    const {name, radius, rotateSpeed: orbitRotateSpeed, materialOptions, startAngleY = 0} = settings[this.planetName].orbit;
+    this.parentPlanet = parentPlanet;
+    const {name, radius, rotateSpeed: orbitRotateSpeed, materialOptions, startAngleY = 0} = this.getOrbitSettings();
 
     this.startAngleY = startAngleY;
     this.radius = radius.call(settings);
@@ -19,6 +20,13 @@ class Orbit extends THREE.Object3D {
     this.materialOptions = materialOptions;
 
     this.init();
+  }
+
+  getOrbitSettings() {
+    if (this.parentPlanet) {
+      return settings[this.parentPlanet.className].sputniks[this.planetName].orbit || {};
+    }
+    return settings[this.planetName].orbit || {};
   }
 
   init() {

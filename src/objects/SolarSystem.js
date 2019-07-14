@@ -72,8 +72,8 @@ class SolarSystem extends THREE.Object3D {
 
     this.controls.enablePan = false;
     this.controls.target.set(this.sun.position.x, this.sun.position.y, this.sun.position.z);
-    this.controls.minDistance = settings.sun.radius + 2;
-    this.controls.maxDistance = 90;
+    this.controls.minDistance = settings.Sun.radius + 2;
+    this.controls.maxDistance = 100;
   }
 
   createLights() {

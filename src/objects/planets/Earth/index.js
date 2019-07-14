@@ -1,18 +1,24 @@
 import * as THREE from 'three';
 
-import {Planet} from "../..";
+import {Planet, Moon} from "../..";
 
 class Earth extends Planet {
   constructor(scene) {
     super(scene);
 
-    this.className = this.constructor.name.toLowerCase();
+    this.className = this.constructor.name;
   }
 
   init() {
     super.init();
     this.configureMaterial();
+    this.createMoon();
     this.createClouds();
+  }
+
+  createMoon() {
+    this.moon = new Moon(this.scene, this);
+    this.mesh.add(this.moon.orbit.mesh);
   }
 
   configureMaterial() {
@@ -40,6 +46,12 @@ class Earth extends Planet {
 
     this.cloudMesh = new THREE.Mesh(this.geometry, this.cloudsMaterial);
     this.mesh.add(this.cloudMesh);
+  }
+
+  move() {
+    super.move();
+
+    this.moon.move();
   }
 }
 

@@ -5,7 +5,7 @@ class Jupiter extends Planet{
   constructor(scene) {
     super(scene);
 
-    this.className = this.constructor.name.toLowerCase();
+    this.className = this.constructor.name;
   }
 
   init() {

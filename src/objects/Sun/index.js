@@ -8,7 +8,7 @@ class Sun extends THREE.Object3D {
 
     this.scene = scene;
     this.textures = importAllTextures();
-    this.className = this.constructor.name.toLowerCase();
+    this.className = this.constructor.name;
 
     const { rotateSpeed } = settings[this.className];
     this.rotateSpeed = rotateSpeed;

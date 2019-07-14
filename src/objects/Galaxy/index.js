@@ -1,18 +1,24 @@
 import * as THREE from 'three';
 import GalaxyTexture from '../../tex/galaxy/galaxy.png';
 
-const settings = {
-  radius: 200
-};
+import { settings } from "../../settings";
 
 class Galaxy {
   constructor(scene, renderer) {
+    this.className = this.constructor.name;
+
     this.scene = scene;
     this.renderer = renderer;
     this.canvasWidth = this.renderer.domElement.clientWidth;
     this.canvasHeight = this.renderer.domElement.clientHeight;
 
+    this.settings = this.getSettings();
+
     this.init();
+  }
+
+  getSettings() {
+    return settings[this.className]
   }
 
   init() {
@@ -27,7 +33,7 @@ class Galaxy {
       this.textureHeight = this.texture.image.height;
       this.repeatTexture();
 
-      this.geometry = new THREE.SphereBufferGeometry(settings.radius, 32, 32);
+      this.geometry = new THREE.SphereBufferGeometry(this.settings.radius, 32, 32);
       this.material = new THREE.MeshBasicMaterial();
       this.material.map = this.texture;
       this.material.side = THREE.BackSide;
