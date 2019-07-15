@@ -28,12 +28,15 @@ class Sun extends THREE.Object3D {
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.name = name;
-    this.scene.add(this.mesh);
+    // this.scene.add(this.mesh);
 
     const color = 0xFFFFFF;
     const intensity = 1.5;
     this.pointLight = new THREE.PointLight(color, intensity);
-    this.scene.add(this.pointLight);
+    this.pointLight.castShadow = true;
+
+    this.mesh.add(this.pointLight);
+    this.scene.add(this.mesh);
   }
 
   move() {

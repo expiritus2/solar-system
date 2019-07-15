@@ -29,6 +29,8 @@ class SolarSystem extends THREE.Object3D {
   createRenderer() {
     this.canvas = document.getElementById('canvas');
     this.renderer = new THREE.WebGLRenderer({canvas: this.canvas, antialias: true});
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.enabled = true;
   }
 
   createScene() {
@@ -80,8 +82,8 @@ class SolarSystem extends THREE.Object3D {
     this.ambientLight = new THREE.AmbientLight(0x404040, 0.5);
     this.scene.add(this.ambientLight);
 
-    this.ambientLightHelper = new THREE.PointLightHelper(this.ambientLight, 1);
-    this.scene.add(this.ambientLightHelper);
+    // this.ambientLightHelper = new THREE.PointLightHelper(this.ambientLight, 1);
+    // this.scene.add(this.ambientLightHelper);
   }
 
   resizeRendererToDisplaySize() {

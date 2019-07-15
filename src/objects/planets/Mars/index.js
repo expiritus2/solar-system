@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import {Planet} from "../../";
+import {Planet, Fobos, Phobos, Deimos} from "../../";
 
 class Mars extends Planet{
   constructor(scene) {
@@ -12,6 +12,14 @@ class Mars extends Planet{
   init() {
     super.init();
     this.configureMaterial();
+    this.createSputniks();
+  }
+
+  createSputniks() {
+    this.phobos = new Phobos(this.scene, this);
+    this.deimos = new Deimos(this.scene, this);
+    this.mesh.add(this.phobos.orbit.mesh);
+    this.mesh.add(this.deimos.orbit.mesh);
   }
 
   configureMaterial() {

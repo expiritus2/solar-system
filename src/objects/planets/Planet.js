@@ -39,6 +39,8 @@ class Planet extends THREE.Object3D {
     this.geometry = new THREE.SphereBufferGeometry(this.radius, 32, 32);
     this.material = new THREE.MeshPhongMaterial({...this.materialOptions});
     this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
     this.mesh.name = this.name;
     this.material.shininess = 0;
   }

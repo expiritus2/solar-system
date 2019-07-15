@@ -40,6 +40,10 @@ module.exports = {
             name: 'tex/[name].[ext]'
           }
         }
+      },
+      {
+        test: /\.obj.bin$/i,
+        use: 'raw-loader'
       }
     ]
   },

@@ -62,6 +62,30 @@ export const settings = {
       radius() { return this.Sun.radius + 12 },
       rotateSpeed: 0.001,
       startAngleY: -45,
+    },
+    sputniks: {
+      Phobos: {
+        name: 'Fobos',
+        radius() { return this.Mars.radius / 6 },
+        rotateSpeed: 0.001,
+        orbit: {
+          name: 'FobosOrbit',
+          radius() { return this.Mars.radius + 1 },
+          rotateSpeed: 0.003,
+          startAngleY: 0,
+        }
+      },
+      Deimos: {
+        name: 'Deimos',
+        radius() { return this.Mars.radius / 5 },
+        rotateSpeed: 0.003,
+        orbit: {
+          name: 'Deimos',
+          radius() { return this.Mars.radius + 2 },
+          rotateSpeed: 0.003,
+          startAngleY: 90,
+        }
+      }
     }
   },
   Jupiter: {
@@ -83,7 +107,7 @@ export const settings = {
       name: 'SaturnOrbit',
       radius() { return this.Sun.radius + 18 },
       rotateSpeed: 0.001,
-      startAngleY: 35,
+      startAngleY: 15,
     }
   },
   Uranus: {
