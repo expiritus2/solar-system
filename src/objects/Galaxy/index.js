@@ -40,6 +40,7 @@ class Galaxy {
 
       this.mesh = new THREE.Mesh(this.geometry, this.material);
       this.mesh.name = 'Galaxy';
+      this.mesh.layers.set(1);
       this.scene.add(this.mesh);
     });
   }

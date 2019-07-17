@@ -49,7 +49,9 @@ class Saturn extends Planet {
     this.material.opacity = opacity;
 
     this.material.side = THREE.DoubleSide;
-    return new THREE.Mesh(this.geometry, this.material);
+    const ringMesh = new THREE.Mesh(this.geometry, this.material);
+    ringMesh.layers.set(1);
+    return ringMesh;
   }
 }
 
