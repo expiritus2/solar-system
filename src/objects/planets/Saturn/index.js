@@ -26,6 +26,7 @@ class Saturn extends Planet {
   createRings(countRings) {
     for(let i = 1, j = 0.2; i <= countRings; i++, j+=0.5) {
       const ring = this.createRing(j, j + 0.25, i / countRings);
+      ring.name = `Ring-${i}`;
       this.mesh.add(ring);
     }
   }
@@ -49,7 +50,9 @@ class Saturn extends Planet {
     this.material.opacity = opacity;
 
     this.material.side = THREE.DoubleSide;
-    return new THREE.Mesh(this.geometry, this.material);
+    const mesh = new THREE.Mesh(this.geometry, this.material);
+    mesh.layers.set(1);
+    return mesh;
   }
 }
 

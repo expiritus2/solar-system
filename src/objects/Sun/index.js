@@ -33,9 +33,11 @@ class Sun extends THREE.Object3D {
     const color = 0xFFFFFF;
     const intensity = 1.5;
     this.pointLight = new THREE.PointLight(color, intensity);
+    this.pointLight.layers.set(1);
     this.pointLight.castShadow = true;
 
     this.mesh.add(this.pointLight);
+    this.mesh.layers.set(1);
     this.scene.add(this.mesh);
   }
 

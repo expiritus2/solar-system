@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
 import {Earth, Sun, Galaxy, Saturn, Mercury, Venus, Mars, Jupiter, Uranus, Neptune, Pluto} from ".";
-import { settings } from "../settings";
+import {settings} from "../settings";
+
+const ENTIRE_SCENE = 0, BLOOM_SCENE = 1;
 
 class SolarSystem extends THREE.Object3D {
   constructor() {
@@ -10,6 +12,8 @@ class SolarSystem extends THREE.Object3D {
     this.planets = [];
 
     this.init();
+
+    this.mouse = new THREE.Vector3();
   }
 
   init() {
@@ -22,6 +26,8 @@ class SolarSystem extends THREE.Object3D {
     this.createCamera();
     this.createControls();
     this.createLights();
+    this.createEventListeners();
+    this.createRayCaster();
 
     this.render(0);
   }
@@ -80,10 +86,56 @@ class SolarSystem extends THREE.Object3D {
 
   createLights() {
     this.ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+    this.ambientLight.layers.set(1);
     this.scene.add(this.ambientLight);
 
-    // this.ambientLightHelper = new THREE.PointLightHelper(this.ambientLight, 1);
-    // this.scene.add(this.ambientLightHelper);
+    this.ambientLight2 = new THREE.AmbientLight(0x404040, 5);
+    this.ambientLight2.layers.set(2);
+    this.scene.add(this.ambientLight2);
+  }
+
+  createRayCaster() {
+    this.raycaster = new THREE.Raycaster();
+  }
+
+  createEventListeners() {
+    this.renderer.domElement.addEventListener('click', this.onMouseClick.bind(this), false);
+    this.renderer.domElement.addEventListener('mousemove', this.onMouseMove.bind(this), false);
+  }
+
+  onMouseClick(event) {
+    this.processRayCaster(event);
+  }
+
+  onMouseMove(event) {
+    this.processRayCaster(event);
+    if (this.selectedObject && !this.selectedObject.name.match(/(Orbit|Galaxy|Ring)/i)) {
+      this.selectedObject.layers.set(2);
+    }
+  }
+
+  processRayCaster(event) {
+    this.convertMousePosTo3dWorldPos(event);
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+    this.intersects = this.raycaster.intersectObjects(this.scene.children, true);
+    this.getObject();
+  }
+
+  getObject() {
+    if (this.intersects.length > 0) {
+      const object = this.intersects.filter(function (res) {
+        return res && res.object;
+      })[0];
+
+      this.selectedObject = (object && object.object) || null;
+    }
+  }
+
+  convertMousePosTo3dWorldPos(event) {
+    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    this.mouse.z = 0.5;
   }
 
   resizeRendererToDisplaySize() {
@@ -107,10 +159,27 @@ class SolarSystem extends THREE.Object3D {
     }
 
     this.planets.forEach(planet => {
+
+      if (this.selectedObject && this.selectedObject.name !== planet.mesh.name) {
+        planet.traverse(node => {
+          node.mesh.layers.set(1);
+        });
+      }
+
       planet.move();
     });
 
+    this.renderer.autoClear = true;
+
+    this.camera.layers.set(1);
     this.renderer.render(this.scene, this.camera);
+
+    this.renderer.autoClear = false;
+
+    this.camera.layers.set(2);
+    this.renderer.render(this.scene, this.camera);
+
+
     this.controls.update();
 
     requestAnimationFrame(this.render.bind(this))
