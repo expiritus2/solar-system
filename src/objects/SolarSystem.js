@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
 import {Earth, Sun, Galaxy, Saturn, Mercury, Venus, Mars, Jupiter, Uranus, Neptune, Pluto} from ".";
-import { settings } from "../settings";
+import {settings} from "../settings";
+
+const ENTIRE_SCENE = 0, BLOOM_SCENE = 1;
 
 class SolarSystem extends THREE.Object3D {
   constructor() {
@@ -86,6 +88,10 @@ class SolarSystem extends THREE.Object3D {
     this.ambientLight = new THREE.AmbientLight(0x404040, 0.5);
     this.ambientLight.layers.set(1);
     this.scene.add(this.ambientLight);
+
+    this.ambientLight2 = new THREE.AmbientLight(0x404040, 5);
+    this.ambientLight2.layers.set(2);
+    this.scene.add(this.ambientLight2);
   }
 
   createRayCaster() {
@@ -103,8 +109,8 @@ class SolarSystem extends THREE.Object3D {
 
   onMouseMove(event) {
     this.processRayCaster(event);
-    if(this.selectedObject) {
-      this.selectedObject.layers.set(1);
+    if (this.selectedObject && !this.selectedObject.name.match(/(Orbit|Galaxy|Ring)/i)) {
+      this.selectedObject.layers.set(2);
     }
   }
 
@@ -117,10 +123,10 @@ class SolarSystem extends THREE.Object3D {
   }
 
   getObject() {
-    if(this.intersects.length > 0) {
-      const object = this.intersects.filter( function ( res ) {
+    if (this.intersects.length > 0) {
+      const object = this.intersects.filter(function (res) {
         return res && res.object;
-      } )[ 0 ];
+      })[0];
 
       this.selectedObject = (object && object.object) || null;
     }
@@ -153,17 +159,26 @@ class SolarSystem extends THREE.Object3D {
     }
 
     this.planets.forEach(planet => {
+
+      if (this.selectedObject && this.selectedObject.name !== planet.mesh.name) {
+        planet.traverse(node => {
+          node.mesh.layers.set(1);
+        });
+      }
+
       planet.move();
     });
 
+    this.renderer.autoClear = true;
+
     this.camera.layers.set(1);
     this.renderer.render(this.scene, this.camera);
+
+    this.renderer.autoClear = false;
 
     this.camera.layers.set(2);
     this.renderer.render(this.scene, this.camera);
 
-    this.camera.layers.set(1);
-    this.renderer.render(this.scene, this.camera);
 
     this.controls.update();
 
