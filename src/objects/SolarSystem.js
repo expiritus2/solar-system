@@ -79,7 +79,7 @@ class SolarSystem extends THREE.Object3D {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     this.controls.enablePan = false;
-    this.controls.target.set(this.sun.position.x, this.sun.position.y, this.sun.position.z);
+    this.controls.target.copy(this.sun.position);
     this.controls.minDistance = settings.Sun.radius + 2;
     this.controls.maxDistance = 100;
   }
@@ -92,6 +92,10 @@ class SolarSystem extends THREE.Object3D {
     this.ambientLight2 = new THREE.AmbientLight(0x404040, 5);
     this.ambientLight2.layers.set(2);
     this.scene.add(this.ambientLight2);
+
+    this.pointLight2 = new THREE.PointLight(0xFFFFFF, 1.5);
+    this.pointLight2.layers.set(2);
+    this.scene.add(this.pointLight2);
   }
 
   createRayCaster() {
@@ -104,31 +108,40 @@ class SolarSystem extends THREE.Object3D {
   }
 
   onMouseClick(event) {
-    this.processRayCaster(event);
+    this.processRayCaster(event, 'click');
+
+    if(!this.selectedObject.name.match(/Galaxy/)) {
+      // this.controls.target.set(-this.selectedObject.position.x, this.selectedObject.position.y, this.selectedObject.position.z);
+      // this.controls.target.set(this.selectedObject.position.x, this.selectedObject.position.y, 0);
+    }
   }
 
   onMouseMove(event) {
     this.processRayCaster(event);
-    if (this.selectedObject && !this.selectedObject.name.match(/(Orbit|Galaxy|Ring)/i)) {
+    if (this.selectedObject && !this.selectedObject.name.match(/(Orbit|Galaxy|Ring|Moon|Phobos|Deimos)/i)) {
       this.selectedObject.layers.set(2);
     }
   }
 
-  processRayCaster(event) {
+  processRayCaster(event, type) {
     this.convertMousePosTo3dWorldPos(event);
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
     this.intersects = this.raycaster.intersectObjects(this.scene.children, true);
-    this.getObject();
+    this.getObject(type);
   }
 
-  getObject() {
+  getObject(type) {
     if (this.intersects.length > 0) {
       const object = this.intersects.filter(function (res) {
         return res && res.object;
       })[0];
 
       this.selectedObject = (object && object.object) || null;
+    }
+
+    if(type === 'click') {
+      this.clickedObject = this.selectedObject;
     }
   }
 
@@ -159,7 +172,6 @@ class SolarSystem extends THREE.Object3D {
     }
 
     this.planets.forEach(planet => {
-
       if (this.selectedObject && this.selectedObject.name !== planet.mesh.name) {
         planet.traverse(node => {
           node.mesh.layers.set(1);
@@ -168,6 +180,12 @@ class SolarSystem extends THREE.Object3D {
 
       planet.move();
     });
+
+    if(this.selectedObject && this.selectedObject.name === settings.Sun.name) {
+      this.ambientLight2.intensity = 1;
+    } else {
+      this.ambientLight2.intensity = 5;
+    }
 
     this.renderer.autoClear = true;
 
@@ -178,7 +196,6 @@ class SolarSystem extends THREE.Object3D {
 
     this.camera.layers.set(2);
     this.renderer.render(this.scene, this.camera);
-
 
     this.controls.update();
 

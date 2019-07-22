@@ -65,11 +65,11 @@ export const settings = {
     },
     sputniks: {
       Phobos: {
-        name: 'Fobos',
+        name: 'Phobos',
         radius() { return this.Mars.radius / 6 },
         rotateSpeed: 0.001,
         orbit: {
-          name: 'FobosOrbit',
+          name: 'PhobosOrbit',
           radius() { return this.Mars.radius + 1 },
           rotateSpeed: 0.003,
           startAngleY: 0,

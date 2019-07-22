@@ -44,7 +44,6 @@ class Orbit extends THREE.Object3D {
     this.mesh.layers.set(1);
 
     this.mesh.rotation.y = THREE.Math.degToRad(this.startAngleY);
-    this.mesh.layers.set(1);
   }
 
   move() {

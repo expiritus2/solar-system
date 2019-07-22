@@ -27,6 +27,7 @@ class Uranus extends Planet {
   createRings(countRings) {
     for(let i = 1, j = 0.2; i <= countRings; i++, j+=0.1) {
       const ring = this.createRing(j, j + 0.05, i / countRings);
+      ring.name = `Ring-${i}`;
       this.mesh.add(ring);
     }
   }
