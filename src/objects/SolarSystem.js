@@ -3,7 +3,7 @@ import OrbitControls from 'three-orbitcontrols';
 import {Earth, Sun, Galaxy, Saturn, Mercury, Venus, Mars, Jupiter, Uranus, Neptune, Pluto} from ".";
 import {settings} from "../settings";
 
-const ENTIRE_SCENE = 0, BLOOM_SCENE = 1;
+const regExp = /(Orbit|Galaxy|Ring|Moon|Phobos|Deimos)/i;
 
 class SolarSystem extends THREE.Object3D {
   constructor() {
@@ -93,7 +93,7 @@ class SolarSystem extends THREE.Object3D {
     this.ambientLight2.layers.set(2);
     this.scene.add(this.ambientLight2);
 
-    this.pointLight2 = new THREE.PointLight(0xFFFFFF, 1.5);
+    this.pointLight2 = new THREE.PointLight(0xFFFFFF, 0.7);
     this.pointLight2.layers.set(2);
     this.scene.add(this.pointLight2);
   }
@@ -110,15 +110,13 @@ class SolarSystem extends THREE.Object3D {
   onMouseClick(event) {
     this.processRayCaster(event, 'click');
 
-    if(!this.selectedObject.name.match(/Galaxy/)) {
-      // this.controls.target.set(-this.selectedObject.position.x, this.selectedObject.position.y, this.selectedObject.position.z);
-      // this.controls.target.set(this.selectedObject.position.x, this.selectedObject.position.y, 0);
-    }
+    this.cameraFollowObject();
   }
 
   onMouseMove(event) {
     this.processRayCaster(event);
-    if (this.selectedObject && !this.selectedObject.name.match(/(Orbit|Galaxy|Ring|Moon|Phobos|Deimos)/i)) {
+
+    if (this.selectedObject && !this.selectedObject.name.match(regExp)) {
       this.selectedObject.layers.set(2);
     }
   }
@@ -140,7 +138,7 @@ class SolarSystem extends THREE.Object3D {
       this.selectedObject = (object && object.object) || null;
     }
 
-    if(type === 'click') {
+    if(type === 'click' && this.selectedObject && !this.selectedObject.name.match(regExp)) {
       this.clickedObject = this.selectedObject;
     }
   }
@@ -164,13 +162,21 @@ class SolarSystem extends THREE.Object3D {
     return needResize;
   }
 
-  render() {
-    if (this.resizeRendererToDisplaySize()) {
-      this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
-      this.camera.updateProjectionMatrix();
-      this.galaxy.resize();
+  cameraFollowObject() {
+    if(this.clickedObject && !this.clickedObject.name.match(regExp)) {
+      this.controls.target.setFromMatrixPosition(this.clickedObject.matrixWorld);
     }
+  }
 
+  highlightObject() {
+    if(this.selectedObject && this.selectedObject.name === settings.Sun.name) {
+      this.ambientLight2.intensity = 1;
+    } else {
+      this.ambientLight2.intensity = 5;
+    }
+  }
+
+  movePlanets() {
     this.planets.forEach(planet => {
       if (this.selectedObject && this.selectedObject.name !== planet.mesh.name) {
         planet.traverse(node => {
@@ -180,13 +186,17 @@ class SolarSystem extends THREE.Object3D {
 
       planet.move();
     });
+  }
 
-    if(this.selectedObject && this.selectedObject.name === settings.Sun.name) {
-      this.ambientLight2.intensity = 1;
-    } else {
-      this.ambientLight2.intensity = 5;
+  onResize() {
+    if (this.resizeRendererToDisplaySize()) {
+      this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
+      this.camera.updateProjectionMatrix();
+      this.galaxy.resize();
     }
+  }
 
+  updateRenderer() {
     this.renderer.autoClear = true;
 
     this.camera.layers.set(1);
@@ -198,6 +208,16 @@ class SolarSystem extends THREE.Object3D {
     this.renderer.render(this.scene, this.camera);
 
     this.controls.update();
+  }
+
+  render() {
+    this.onResize();
+
+    this.movePlanets();
+    this.highlightObject();
+    this.cameraFollowObject();
+
+    this.updateRenderer();
 
     requestAnimationFrame(this.render.bind(this))
   }

@@ -49,6 +49,8 @@ class Planet extends THREE.Object3D {
     this.orbit = new Orbit(this.className, this.parentPlanet);
     this.mesh.position.x = this.orbit.radius;
     this.mesh.layers.set(1);
+
+    this.mesh.geometry.centroid = new THREE.Vector3();
     this.orbit.mesh.add(this.mesh);
     this.scene.add(this.orbit.mesh);
   }
