@@ -15,3 +15,4 @@ export { default as Pluto } from './planets/Pluto';
 export { default as Moon } from './planets/Earth/Moon';
 export { default as Phobos } from './planets/Mars/Phobos';
 export { default as Deimos } from './planets/Mars/Deimos';
+export { default as PlanetName } from './PlanetName';

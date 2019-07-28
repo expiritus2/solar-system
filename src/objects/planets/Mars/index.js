@@ -32,6 +32,13 @@ class Mars extends Planet{
     this.material.bumpMap = bumpTexture;
     this.material.bumpScale = 0.05;
   }
+
+  move() {
+    super.move();
+
+    this.phobos.move();
+    this.deimos.move();
+  }
 }
 
 export default Mars;

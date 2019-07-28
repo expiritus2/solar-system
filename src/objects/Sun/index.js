@@ -1,5 +1,7 @@
 import * as THREE from 'three';
-import { settings } from "../../settings";
+
+import {PlanetName} from '../../objects';
+import {settings} from "../../settings";
 import {importAllTextures} from "../../helpers";
 
 class Sun extends THREE.Object3D {
@@ -10,25 +12,25 @@ class Sun extends THREE.Object3D {
     this.textures = importAllTextures();
     this.className = this.constructor.name;
 
-    const { rotateSpeed } = settings[this.className];
+    const {name, radius, rotateSpeed} = settings[this.className];
+    this.name = name;
+    this.radius = radius;
     this.rotateSpeed = rotateSpeed;
 
     this.init();
   }
 
   init() {
-    const { name, radius } = settings[this.className];
-    const { sun: {sunmap}} = this.textures;
+    const {sun: {sunmap}} = this.textures;
     this.texture = new THREE.TextureLoader().load(sunmap);
 
-    this.geometry = new THREE.SphereBufferGeometry(radius, 32, 32);
+    this.geometry = new THREE.SphereBufferGeometry(this.radius, 32, 32);
     this.material = new THREE.MeshPhongMaterial({
       emissive: 0xFEF3A9,
       emissiveMap: this.texture
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.name = name;
-    // this.scene.add(this.mesh);
+    this.mesh.name = this.name;
 
     const color = 0xFFFFFF;
     const intensity = 1.5;
@@ -41,6 +43,25 @@ class Sun extends THREE.Object3D {
     this.mesh.add(this.pointLight);
     this.mesh.layers.set(1);
     this.scene.add(this.mesh);
+
+    this.displayTextName();
+  }
+
+  displayTextName() {
+    const fontLoader = new THREE.FontLoader();
+    fontLoader.load('../../../src/font/helvetiker_regular.typeface.json', (font) => {
+      this.planetName = new PlanetName({text: this.name, font});
+      this.updateTextNamePosition();
+      this.scene.add(this.planetName.mesh);
+    })
+  }
+
+  updateTextNamePosition() {
+    if(this.planetName) {
+      this.planetName.mesh.position.setFromMatrixPosition(this.mesh.matrixWorld);
+      this.planetName.mesh.position.y += this.radius + 1;
+      this.planetName.align();
+    }
   }
 
   move() {

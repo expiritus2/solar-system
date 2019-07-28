@@ -7,6 +7,7 @@ class Moon extends Planet {
     super(scene, parentPlanet);
 
     this.className = this.constructor.name;
+    this.textSize = 0.5;
   }
 
   init() {

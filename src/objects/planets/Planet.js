@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import { settings } from "../../settings";
 import {importAllTextures} from "../../helpers";
-import {Orbit} from "../index";
+import {Orbit, PlanetName} from "../index";
 
 class Planet extends THREE.Object3D {
   constructor(scene, parentPlanet) {
@@ -19,6 +19,7 @@ class Planet extends THREE.Object3D {
     this.radius = typeof radius === 'function' ? radius.call(settings) : radius;
     this.rotateSpeed = rotateSpeed;
     this.materialOptions = materialOptions;
+    this.textSize = 1;
 
     this.init();
   }
@@ -33,6 +34,7 @@ class Planet extends THREE.Object3D {
   init() {
     this.createPlanet();
     this.createOrbit();
+    this.displayTextName();
   }
 
   createPlanet() {
@@ -55,9 +57,28 @@ class Planet extends THREE.Object3D {
     this.scene.add(this.orbit.mesh);
   }
 
+
+  displayTextName() {
+    const fontLoader = new THREE.FontLoader();
+    fontLoader.load('../../../src/font/helvetiker_regular.typeface.json', (font) => {
+      this.planetName = new PlanetName({text: this.name, font, size: this.textSize});
+      this.updateTextNamePosition();
+      this.scene.add(this.planetName.mesh);
+    })
+  }
+
+  updateTextNamePosition() {
+    if(this.planetName) {
+      this.planetName.mesh.position.setFromMatrixPosition(this.mesh.matrixWorld);
+      this.planetName.mesh.position.y += this.radius + 1;
+      this.planetName.align();
+    }
+  }
+
   move() {
     this.mesh.rotation.y += this.rotateSpeed;
     this.orbit.move();
+    this.updateTextNamePosition();
   }
 }
 
