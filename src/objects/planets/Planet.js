@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { settings } from "../../settings";
 import {importAllTextures} from "../../helpers";
 import {Orbit, PlanetName} from "../index";
+import font from '../../../src/font/helvetiker_regular.typeface';
 
 class Planet extends THREE.Object3D {
   constructor(scene, parentPlanet) {
@@ -60,8 +61,8 @@ class Planet extends THREE.Object3D {
 
   displayTextName() {
     const fontLoader = new THREE.FontLoader();
-    fontLoader.load('../../../src/font/helvetiker_regular.typeface.json', (font) => {
-      this.planetName = new PlanetName({text: this.name, font, size: this.textSize});
+    fontLoader.load(font, (f) => {
+      this.planetName = new PlanetName({text: this.name, font: f, size: this.textSize});
       this.updateTextNamePosition();
       this.scene.add(this.planetName.mesh);
     })

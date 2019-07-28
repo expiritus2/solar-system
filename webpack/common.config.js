@@ -42,9 +42,12 @@ module.exports = {
         }
       },
       {
-        test: /\.obj.bin$/i,
-        use: 'raw-loader'
-      }
+        test: /\.typeface$/i,
+        loader: 'file-loader',
+        options: {
+          name: 'font/[name].[ext]'
+        }
+      },
     ]
   },
   plugins: [
