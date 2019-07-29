@@ -8,11 +8,11 @@ export const settings = {
     rotateSpeed: 0.002
   },
   Mercury: {
-    name: 'Saturn',
+    name: 'Mercury',
     radius: 0.5,
     rotateSpeed: -0.003,
     orbit: {
-      name: 'SaturnOrbit',
+      name: 'MercuryOrbit',
       radius() { return this.Sun.radius + 3 },
       rotateSpeed: 0.001,
       startAngleY: 0,
