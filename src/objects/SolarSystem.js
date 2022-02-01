@@ -85,7 +85,7 @@ class SolarSystem extends THREE.Object3D {
   }
 
   createLights() {
-    this.ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+    this.ambientLight = new THREE.AmbientLight(0x404040, 1);
     this.ambientLight.layers.set(1);
     this.scene.add(this.ambientLight);
 
@@ -93,7 +93,7 @@ class SolarSystem extends THREE.Object3D {
     this.ambientLight2.layers.set(2);
     this.scene.add(this.ambientLight2);
 
-    this.pointLight2 = new THREE.PointLight(0xFFFFFF, 0.7);
+    this.pointLight2 = new THREE.PointLight(0xFFFFFF, 1);
     this.pointLight2.layers.set(2);
     this.scene.add(this.pointLight2);
   }
