@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --open --config ./webpack/dev.config.js --mode development",
     "build": "webpack --config ./webpack/prod.config.js --mode production",
-    "deploy": "node scripts/deploy.js"
+    "deploy": "node scripts/deploy.js",
+    "test": "cross-env NODE_DEBUG=gh-pages gh-pages -d dist"
   },
   "author": "",
   "license": "ISC",
@@ -30,7 +31,8 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
-    "three": "^0.137.0",
+    "cross-env": "^7.0.3",
+    "three": "0.106.2",
     "three-orbitcontrols": "^2.102.2"
   }
 }
